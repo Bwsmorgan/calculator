@@ -2,77 +2,59 @@ function add(a,b) {
     
     let sum = a+b;   
     display.textContent = sum;
-    operandClicked = false;
-    usersFirstInput = [''];
-    operandSelected = [''];
-    usersSecondInput = [''];
-    return sum; 
-    
-
+    reset();
 }
 
 function subtract(a,b) {
 
     let difference = a-b;
     display.textContent = difference;
-    operandClicked = false;
-    usersFirstInput = '';
-    operandSelected = '';
-    usersSecondInput = '';
-    return difference;
+    reset();
 }
 
 function multiply(a,b) {
     
     let product = a*b;
     display.textContent = product;
-    operandClicked = false;
-    usersFirstInput = '';
-    operandSelected = '';
-    usersSecondInput = '';
-    return product;
+    reset();
 }
 
 function divide(a,b) {
 
     let quotient = a/b;
     display.textContent = quotient;
-    operandClicked = false;
-    usersFirstInput = '';
-    operandSelected = '';
-    usersSecondInput = '';
-    return quotient;
+    reset();
 }
 
+
 //Variable for 1st number selected by the user
-let usersFirstInput = [''];
+var usersFirstInput = [''];
 //Variable for the operand selected by the user
-let operandSelected = [];
+var operandSelected = [];
 //Variable for 2nd number selected by the user
-let usersSecondInput = [''];
+var usersSecondInput = [''];
+
 
 function operate(operator, num1, num2){
 
-    let number1 = parseInt(num1[0]);
-    let number2 = parseInt(num2[0]);
-
-
-    if (operator === 'add') {
-        return add(number1,number2)
-    }
-    else if (operator === 'subtract') {
-        console.log('yes')
-        subtract(number1,number2)
-    }
-    else if (operator === 'multiply') {
-        console.log('yes')
-        multiply(number1,number2)
-    }
-    else if (operator === 'divide') {
-        console.log('yes')
-        divide(number1,number2)
+    switch(operator){
+        case 'add':
+            return add(parseInt(num1),parseInt(num2));
+            break;
+        case 'subtract':
+            return subtract(parseInt(num1),parseInt(num2));
+            break;
+        case 'multiply':
+            return multiply(parseInt(num1),parseInt(num2));
+            break;
+        case 'divide':
+            return divide(parseInt(num1),parseInt(num2));
+            break;
+        default:
+            console.log('error')
     }
 }
+
 
 const number = document.querySelector('.digits');
 const display = document.querySelector('#display');
@@ -81,7 +63,7 @@ const calculate = document.querySelector('#equals');
 const clear = document.querySelector('#clear');
 
 
-const clicked = 0;
+//const clicked = 0;
 let equalWasClicked = false;
 let operandClicked = false;
 
@@ -94,7 +76,7 @@ number.addEventListener('click', (e)=>{
 
     }
     
-    //this means a number was just clicked operand has not been clicked
+    //this means a number was just clicked operand has not been clickeds
     else if(operandClicked === false){
        
         //let digitID = e.target.id;
@@ -138,7 +120,7 @@ operand.addEventListener('click', (e)=>{
         operandClicked = false;
     }
 
-    //this means the operand has been selected and first equation has been already set its assumed the second input has been selected
+    //this means the operand has been selected and first operation has been already set its assumed the second input has been selected
     else if(operandClicked === true){
 
         let newValue = operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
@@ -177,9 +159,10 @@ calculate.addEventListener('click', (e)=>{
 
     equalWasClicked = true;
 
+    //our arrays must have values in order to calculate
     if(usersFirstInput != [] && operandSelected != [] && usersSecondInput != []){
         console.log(true)
-        operate(operandSelected, usersFirstInput, usersSecondInput);
+        operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
     }
 })
 
@@ -188,8 +171,16 @@ calculate.addEventListener('click', (e)=>{
 clear.addEventListener('click', ()=>{
 
     display.textContent = [];
-    usersFirstInput = [];
-    operandSelected = [];
-    usersSecondInput = [];
+    reset();
 
 })
+
+function reset(){
+
+    operandClicked = false;
+    operandClicked = false;
+    equalWasClicked = false;
+    usersFirstInput = [''];
+    operandSelected = [];
+    usersSecondInput = [''];
+}
