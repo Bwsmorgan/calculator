@@ -39,6 +39,7 @@ function operate(operator, num1, num2){
 
     switch(operator){
         case 'add':
+            console.log('yes')
             return add(parseInt(num1),parseInt(num2));
             break;
         case 'subtract':
@@ -62,8 +63,6 @@ const operand = document.querySelector('.operands');
 const calculate = document.querySelector('#equals');
 const clear = document.querySelector('#clear');
 
-
-//const clicked = 0;
 let equalWasClicked = false;
 let operandClicked = false;
 
@@ -110,8 +109,6 @@ number.addEventListener('click', (e)=>{
 })
 
 
-
-
 operand.addEventListener('click', (e)=>{
 
     //There is no reason to store an operand if the first value has not been selected by the user
@@ -120,37 +117,42 @@ operand.addEventListener('click', (e)=>{
         operandClicked = false;
     }
 
-    //this means the operand has been selected and first operation has been already set its assumed the second input has been selected
-    else if(operandClicked === true){
+    //first time operand has been clicked
+    if(operandClicked === false){
 
-        let newValue = operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
-        //remove 1st value stored in usersFirstInput then add new value
-        usersFirstInput[0]= newValue;
-        //usersFirstInput.push(newValue);
-        
-        console.log(usersFirstInput)
-
-        let operandID = e.target.id;
-        var selectedOperand = document.getElementById(`${operandID}`);
-        display.textContent = newValue;
-        operandSelected = operandID;
-        console.log(operandSelected);
         operandClicked = true;
-    }
 
-
-    else{
-        operandClicked = true;
-        
-
-        let operandID = e.target.id;
+        var operandID = e.target.id;
         var selectedOperand = document.getElementById(`${operandID}`);
         display.textContent = selectedOperand.innerHTML;
         operandSelected.push(operandID);
         console.log(operandSelected);
+        
     }
     
+    
+    else{
 
+        console.log(operandSelected[0])
+        console.log(usersFirstInput[0])
+        console.log(usersSecondInput[0])
+
+        operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
+        //remove 1st value stored in usersFirstInput then add new value
+        //usersFirstInput[0] = display.textContent;
+        usersFirstInput[0] = usersFirstInput[0] + display.textContent
+        console.log(`firstInput:${usersFirstInput}`)
+        console.log(usersFirstInput)
+    
+
+        var operandID = e.target.id;
+        var selectedOperand = document.getElementById(`${operandID}`);
+        display.textContent = usersFirstInput + selectedOperand.innerHTML;
+        operandSelected.push(operandID);
+        
+        console.log(operandSelected);
+        operandClicked = true;
+    }  
 })
 
 
@@ -162,6 +164,9 @@ calculate.addEventListener('click', (e)=>{
     //our arrays must have values in order to calculate
     if(usersFirstInput != [] && operandSelected != [] && usersSecondInput != []){
         console.log(true)
+        console.log(usersFirstInput);
+        console.log(usersSecondInput);
+        console.log(operandSelected);
         operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
     }
 })
@@ -172,8 +177,8 @@ clear.addEventListener('click', ()=>{
 
     display.textContent = [];
     reset();
-
 })
+
 
 function reset(){
 
