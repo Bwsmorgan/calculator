@@ -2,28 +2,72 @@ function add(a,b) {
     
     let sum = a+b;   
     display.textContent = sum;
+    console.log(`result ${sum}`)
+    // this value should become the firstInput
+    
     reset();
+    console.log(`usersFirstInput ${usersFirstInput}`)
+    console.log(`usersSecondInput ${usersSecondInput}`)
+
+    console.log(operandSelected)
+
+    //usersFirstInput[0]= sum;
+    //reset();
 }
 
 function subtract(a,b) {
 
     let difference = a-b;
     display.textContent = difference;
+    console.log(`result ${difference}`)
+    // this value should become the firstInput
+    usersFirstInput = [difference];
+
     reset();
+    
+    console.log(`usersFirstInput ${usersFirstInput}`)
+    console.log(`usersSecondInput ${usersSecondInput}`)
+
+    console.log(operandSelected)
 }
 
 function multiply(a,b) {
     
     let product = a*b;
     display.textContent = product;
+    console.log(`result ${product}`)
+    // this value should become the firstInput
+    usersFirstInput = [product];
     reset();
+    console.log(`usersFirstInput ${usersFirstInput}`)
+    console.log(`usersSecondInput ${usersSecondInput}`)
+
+    console.log(operandSelected)
 }
 
 function divide(a,b) {
 
-    let quotient = a/b;
-    display.textContent = quotient;
-    reset();
+    if (b === 0){
+        display.textContent = "You cannot use zero as a divisor";
+        reset();
+    }
+    else{
+        let quotient = a/b;
+        display.textContent = quotient;
+        
+
+        console.log(`result ${quotient}`)
+        // this value should become the firstInput
+        usersFirstInput = [quotient];
+
+        reset();
+        
+        console.log(`usersFirstInput ${usersFirstInput}`)
+        console.log(`usersSecondInput ${usersSecondInput}`)
+
+        console.log(operandSelected)
+    }
+    
 }
 
 
@@ -39,7 +83,6 @@ function operate(operator, num1, num2){
 
     switch(operator){
         case 'add':
-            console.log('yes')
             return add(parseInt(num1),parseInt(num2));
             break;
         case 'subtract':
@@ -52,7 +95,7 @@ function operate(operator, num1, num2){
             return divide(parseInt(num1),parseInt(num2));
             break;
         default:
-            console.log('error')
+            console.log('error');
     }
 }
 
@@ -70,6 +113,7 @@ let operandClicked = false;
 number.addEventListener('click', (e)=>{
     
     if(equalWasClicked === true){
+
         display.textContent = '';
         equalWasClicked = false
 
@@ -102,7 +146,6 @@ number.addEventListener('click', (e)=>{
         //this is where we will store the number that was clicked
         usersSecondInput[0] = usersSecondInput[0] + selectedValue.innerHTML
 
-
         console.log(`secondInput: ${usersSecondInput}`);
         console.log(usersSecondInput);
     }    
@@ -118,7 +161,7 @@ operand.addEventListener('click', (e)=>{
     }
 
     //first time operand has been clicked
-    if(operandClicked === false){
+    else if(operandClicked === false){
 
         operandClicked = true;
 
@@ -132,10 +175,6 @@ operand.addEventListener('click', (e)=>{
     
     
     else{
-
-        console.log(operandSelected[0])
-        console.log(usersFirstInput[0])
-        console.log(usersSecondInput[0])
 
         operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
         //remove 1st value stored in usersFirstInput then add new value
@@ -163,19 +202,22 @@ calculate.addEventListener('click', (e)=>{
 
     //our arrays must have values in order to calculate
     if(usersFirstInput != [] && operandSelected != [] && usersSecondInput != []){
-        console.log(true)
-        console.log(usersFirstInput);
-        console.log(usersSecondInput);
-        console.log(operandSelected);
         operate(operandSelected[0], usersFirstInput[0], usersSecondInput[0]);
+        usersFirstInput[0] = display.textContent;
+
+        console.log(usersFirstInput[0])
+
     }
+    //reset();
 })
 
 
 
 clear.addEventListener('click', ()=>{
 
+    //equalWasClicked = true;
     display.textContent = [];
+    //usersFirstInput = ['']
     reset();
 })
 
